@@ -162,7 +162,12 @@ def zeroPad(whichNode, nodeSize, listA, listB):
         whichNode +=1
         zeroPad(whichNode, nodeSize, listA, listB)
 
-
+def destroyLeadingZero(listA):
+    if(listA[0] != 0):
+        return
+    else:
+        del listA[0]
+        destroyLeadingZero(listA)
 
 
 
@@ -252,3 +257,13 @@ carryOver = 0
 recAdd(listOfLists, listOfLists2, listC ,whichNoderecAdd,numberInNoderecAdd , nodeSize, carryOver)
 print(listC)
 
+
+
+###########
+#
+# delete the leading zero's
+#
+###########
+print("Here is the list with no leading zero's")
+destroyLeadingZero(listC)
+print(listC)
