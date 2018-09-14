@@ -169,8 +169,28 @@ def destroyLeadingZero(listA):
         del listA[0]
         destroyLeadingZero(listA)
 
+def printAsString(listA, i, listALen, returnedString):
+    if(i < listALen):
+        print("if")
+        print(returnedString)
 
+        returnedString = str(listA[i]) + printAsString(listA, i+1, listALen, returnedString)
+    elif(i == listALen):
+        print("elif")
+        done = ""
+        return done
 
+def recToString(listC, listLen, i):
+    if(i == listLen-1):
+        #print(i)
+        theReturnedString = listC[i]
+        #print(theReturnedString)
+        return str(theReturnedString)
+    elif(i < listLen):
+        #print(i)
+        theReturnedString = listC[i]
+        #print(theReturnedString)
+        return str(theReturnedString) + recToString(listC, listLen, i+1)
 
 
 #######################################################
@@ -267,3 +287,17 @@ print(listC)
 print("Here is the list with no leading zero's")
 destroyLeadingZero(listC)
 print(listC)
+
+
+stringV = ""
+i = 0
+listCLength = len(listC)
+#def printAsString(listA, i, listALen, returnedString):
+
+#stringNew = printAsString(listC, i, listCLength, stringV)
+
+#print(stringNew)
+#recToString(listC, listLen, i, theReturnedString)
+print("Here is the number converted back to a string")
+print(recToString(listC, len(listC), 0))
+
