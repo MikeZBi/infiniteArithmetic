@@ -31,6 +31,7 @@ def lengthFinder(listA):
 def recAdd(listA, listB, listC, whichNode, numberInNode, nodeSize, carryOver):
     if(whichNode == -1):
         #print("if")
+        listC.insert(0,carryOver)
         return
     elif(whichNode > -1 and numberInNode > -1):
 
@@ -193,6 +194,10 @@ def recToString(listC, listLen, i):
         return str(theReturnedString) + recToString(listC, listLen, i+1)
 
 
+def toMultiply(listA, listB, listC):
+    return
+
+
 #######################################################
 #
 # main
@@ -209,7 +214,7 @@ def recToString(listC, listLen, i):
 ###########
 #Initialize driver variables
 print("Here are the strings represented as 2dLists")
-myString = "92349"
+myString = "992349"
 nodeSize = 3
 numberInNode = 0
 whichNode = (math.ceil(len(myString)/nodeSize))-1
@@ -231,7 +236,7 @@ print(listOfLists)
 #
 ###########
 #Initialize driver variables
-myString1 = "12"
+myString1 = "999912"
 nodeSize1 = 3
 numberInNode1 = 0
 whichNode1 = (math.ceil(len(myString1)/nodeSize1))-1
