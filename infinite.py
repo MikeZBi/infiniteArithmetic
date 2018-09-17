@@ -38,10 +38,10 @@ def recAdd(listA, listB, listC, whichNode, numberInNode, nodeSize, carryOver):
         #print("elif1")
         #print(whichNode, numberInNode)
 
-        toInsert = (listA[whichNode][numberInNode] + listB[whichNode][numberInNode]) % 10 + carryOver
+        toInsert = (listA[whichNode][numberInNode] + listB[whichNode][numberInNode] + carryOver) % 10
         #print(toInsert)
         #print(carryOver)
-        carryOver =(listA[whichNode][numberInNode] + listB[whichNode][numberInNode])//10
+        carryOver =(listA[whichNode][numberInNode] + listB[whichNode][numberInNode] + carryOver)//10
         #print(carryOver)
         numberInNode-=1
         listC.insert(0, toInsert)
@@ -56,8 +56,8 @@ def recAdd(listA, listB, listC, whichNode, numberInNode, nodeSize, carryOver):
             recAdd(listA, listB, listC, whichNode, numberInNode, nodeSize, carryOver)
         else:
             #print(whichNode, numberInNode)
-            toInsert = (listA[whichNode][numberInNode] + listB[whichNode][numberInNode]) % 10 + carryOver
-            carryOver = (listA[whichNode][numberInNode] + listB[whichNode][numberInNode])//10
+            toInsert = (listA[whichNode][numberInNode] + listB[whichNode][numberInNode] + carryOver) % 10
+            carryOver = (listA[whichNode][numberInNode] + listB[whichNode][numberInNode] + carryOver)//10
             listC.insert(0,toInsert)
             print(listC)
             numberInNode -=1
@@ -170,16 +170,6 @@ def destroyLeadingZero(listA):
         del listA[0]
         destroyLeadingZero(listA)
 
-def printAsString(listA, i, listALen, returnedString):
-    if(i < listALen):
-        print("if")
-        print(returnedString)
-
-        returnedString = str(listA[i]) + printAsString(listA, i+1, listALen, returnedString)
-    elif(i == listALen):
-        print("elif")
-        done = ""
-        return done
 
 def recToString(listC, listLen, i):
     if(i == listLen-1):
@@ -193,9 +183,42 @@ def recToString(listC, listLen, i):
         #print(theReturnedString)
         return str(theReturnedString) + recToString(listC, listLen, i+1)
 
+# assume listA is the longer list
+# assume listB is the shorter list
+# for now lets jsut consider that list A and B are of same length, and we padded them with 0's
 
-def toMultiply(listA, listB, listC):
-    return
+
+# whichNodeA is set to len(listA)-1
+# whichNodeB is set to len(listB)-1
+
+# indexA, indexB; initially set to nodeSize
+def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, carryOver):
+    if(whichNodeA == 0 and whichNodeB == 0 and indexA == 0 and indexB == 0):
+        toInsert = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] +carryOver) % 10
+        carryOver = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] + carryOver) //10
+        listC.insert(0, toInsert)
+        listC.insert(0, carryOver)
+    #theoretically this should work for some list B with one node and one item, and be able to multiply through listA that has one node and many items
+    elif(whichNodeB >= 0 and indexB >= 0 and indexA > 0 ):
+        toInsert = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] + carryOver) % 10
+        carryOver = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB]+carryOver) // 10
+        listC.insert(0, toInsert)
+        toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA-1, indexB, carryOver)
+    #this is to loop through the nodes in A
+    elif (whichNodeB >= 0 and indexB >= 0 and indexA == 0):
+        print(whichNodeA)
+        toInsert = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] +carryOver)% 10
+        carryOver = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] + carryOver) // 10
+        listC.insert(0, toInsert)
+        whichNodeA-= 1
+        indexA = len(listA[0])-1
+        toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, carryOver)
+    #need to write something that loops through the nodes in B
+    #This will be difficult as we also need to be able to add the previous line together
+    #   elif (whichNodeB >=0 and indexB >= 0 and whichNodeA == 0 and indexA == 0):
+
+
+
 
 
 #######################################################
@@ -214,7 +237,7 @@ def toMultiply(listA, listB, listC):
 ###########
 #Initialize driver variables
 print("Here are the strings represented as 2dLists")
-myString = "992349"
+myString = "990349"
 nodeSize = 3
 numberInNode = 0
 whichNode = (math.ceil(len(myString)/nodeSize))-1
@@ -305,4 +328,31 @@ listCLength = len(listC)
 #recToString(listC, listLen, i, theReturnedString)
 print("Here is the number converted back to a string")
 print(recToString(listC, len(listC), 0))
+
+
+listA = [[4,4],[3,4]]
+listB = [[3]]
+whichNodeA = len(listA)-1
+whichNodeB = len(listB)-1
+listC = []
+indexA = len(listA[0])-1
+indexB = len(listB[0])-1
+nodeSize = 1
+carryOver = 0;
+#def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, nodeSize, carryOver):
+toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, carryOver)
+print(listC)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
