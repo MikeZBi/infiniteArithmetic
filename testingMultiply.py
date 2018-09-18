@@ -235,7 +235,7 @@ def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, inde
     #for some list B with one node and one item, and be able to multiply through listA that has one node and many items
     elif(whichNodeB >= 0 and indexB >= 0 and whichNodeA > -1 and indexA > 0 and indexC >= 0):
         print("elif1: traversing the current node")
-        print("here is indexC", indexC)
+        print("here is indexC", indexC, " and value at indexC", listC[indexC])
         print("which NodeA:", whichNodeA, "which indexA: ", indexA, " number mult: ", listA[whichNodeA][indexA])
         print("which NodeB:", whichNodeB, "which indexB: ", indexB, " n mult: ", listB[whichNodeB][indexB])
         print("current carry over: ", carryOver)
@@ -250,6 +250,7 @@ def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, inde
         carryOverAdd = (toAdd + toInsert + carryOverAdd) // 10
         print("carryOverAdd: ", carryOverAdd)
         print("numbers in listC: ", listC)
+
         toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA-1, indexB, indexC-1, carryOver, carryOverAdd,n)
 
 
@@ -327,6 +328,8 @@ def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, inde
 
     #finally need to be able to change the node in B
     elif(whichNodeB > 0 and indexB == 0 and whichNodeA == 0 and indexA == 0):
+        print("elif4: the last item in listA has been reached, and it is the last item in current nodeB")
+        print("we process the current item, and will reset back to furthest A, and onto the next node when this is done")
         toInsert = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] + carryOver) % 10
         carryOver = (listA[whichNodeA][indexA] * listB[whichNodeB][indexB] + carryOver) // 10
 
@@ -334,8 +337,8 @@ def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, inde
         listC[indexC] = (toInsert+ toAdd+ carryOverAdd) %10
         carryOverAdd = (toInsert+ toAdd+ carryOverAdd) // 10
         #since this is still the end of a listA multiplication, we need to make sure the carryOver and carryOverAdd are just inserted to the front most of the current index
-        listC.insert(indexC-1, carryOverAdd+carryOver)
-
+        
+        listC[indexC - 1] = carryOverAdd + carryOver
         carryOverAdd = 0
         carryOver = 0
 
@@ -351,6 +354,7 @@ def toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, inde
         #need to reset where the indexC, as we have finished a multiply and need to start a new line, the index must start one left since we have to add a 0 in signifigance
         indexC = len(listC) - (n + 1)
         n+=1
+        print("here is listC: ", listC)
         toMultiply(listA, listB, listC, whichNodeA, whichNodeB, indexA, indexB, indexC, carryOver, carryOverAdd, n)
 
 
@@ -473,8 +477,8 @@ print("Here is the number converted back to a string")
 print(recToString(listC, len(listC), 0))
 
 
-listA = [[0,8],[9,9]]
-listB = [[9,9]]
+listA = [[7,8],[9,9]]
+listB = [[1,1],[9,9]]
 listC = [0,0,0,0,0,0,0,0,0,0]
 whichNodeA = len(listA)-1
 whichNodeB = len(listB)-1
